@@ -7,6 +7,6 @@
     </testsuite>
   </testsuites>
   <logging>
-    <junit outputFile="tests/results/phpunit-apiframe.xml"/>
+    <junit outputFile="phpunit-apiframe.xml"/>
   </logging>
 </phpunit>
