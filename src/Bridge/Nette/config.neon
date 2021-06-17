@@ -1,4 +1,4 @@
 services:
 	-
-		class: Nubium\ApiFrame\Schema\OpenApiSchemaFactory
+		class: Nubium\ApiFrame\Schema\OpenApi\SchemaProvider
 		tags: [edgeService]
