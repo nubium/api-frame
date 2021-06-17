@@ -3,4 +3,5 @@ parameters:
 	paths:
 		- src
 		- tests
-
+	excludePaths:
+		- src\Bridge\Nette\ApiFrameScopeExtension.php

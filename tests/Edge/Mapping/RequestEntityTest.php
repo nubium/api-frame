@@ -28,7 +28,7 @@ class RequestEntityTest extends TestCase
 	{
 		$entityFactory = new class() extends RequestEntity {
 			/** @var \DateTimeImmutable|null */
-			public ?\DateTimeImmutable $date;
+			public $date;
 		};
 
 		$entityInstance = $entityFactory->factory(['date' => $inputDate]);
