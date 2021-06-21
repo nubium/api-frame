@@ -5,3 +5,5 @@ parameters:
 		- tests
 	excludePaths:
 		- src\Bridge\Nette\ApiFrameScopeExtension.php
+		- src\Bridge\Codeception\RestModule.php
+
