@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Nubium\ApiFrame\Edge;
+namespace Nubium\ApiFrame\Bridge\Nette;
 
 use Shared\NetteDiScope\ScopeExtension;
 

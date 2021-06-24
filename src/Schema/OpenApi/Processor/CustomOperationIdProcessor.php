@@ -17,10 +17,13 @@ class CustomOperationIdProcessor
 		$allOperations = $analysis->getAnnotationsOfType(Operation::class);
 
 		foreach ($allOperations as $operation) {
+			/** @phpstan-ignore-next-line */
 			if ($operation->operationId !== UNDEFINED) {
 				continue;
 			}
 			$context = $operation->_context;
+
+			/** @phpstan-ignore-next-line */
 			if ($context && $context->method) {
 					if ($context->class) {
 						if ($context->namespace) {

@@ -5,7 +5,6 @@ namespace Nubium\ApiFrame\Schema\OpenApi;
 
 use cebe\openapi\spec\OpenApi as ValidatorOpenAPi;
 use League\OpenAPIValidation\PSR7\SchemaFactory\JsonFactory;
-use Nubium\ApiFrame\Schema\OpenApi\Processor\CustomOperationIdProcessor;
 use OpenApi\Annotations\OpenApi as SwaggerOpenApi;
 use OpenApi\Generator;
 use OpenApi\Processors\OperationId;
@@ -43,7 +42,7 @@ class SchemaProvider
 				}
 			}
 		}
-		$processors = $processors + $additionalProcessors;
+		$processors = [...$processors, ...$additionalProcessors];
 		$generator->setProcessors($processors);
 		$generator->generate($what);
 
