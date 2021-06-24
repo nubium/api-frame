@@ -22,6 +22,7 @@ class ServerErrorResponseProcessor
 	public function __invoke(Analysis $analysis): void
 	{
 		$allOperations = $analysis->getAnnotationsOfType(Operation::class);
+		/** @var Schema[] $schemas */
 		$schemas = $analysis->getAnnotationsOfType(Schema::class);
 
 		$serverErrorSchema = $this->findServerErrorSchema($schemas);
