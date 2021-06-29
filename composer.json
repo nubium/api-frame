@@ -16,17 +16,19 @@
 		}
 	},
 	"require": {
-		"php": "^7.4",
-		"apitte/core": "^0.6",
-		"apitte/negotiation": "^0.6.0",
-		"league/openapi-psr7-validator": "^0.10.0",
+		"php": ">=7.4",
+		"apitte/core": "^0.6|^0.7",
+		"apitte/negotiation": "^0.6.0|^0.7.0",
+		"league/openapi-psr7-validator": ">=0.10.0",
 		"nette/utils": "^3.0 || ~2.5",
+		"psr/container": "*",
 		"psr/http-message": "^1.0",
 		"psr/http-server-middleware": "^1.0",
 		"psr/log": "^1.0",
 		"spareparts/enum": "~1.1",
 		"symfony/validator": "~4.4.4",
-		"zircote/swagger-php": "^3.2.0"
+		"zircote/swagger-php": "^3.2.0",
+		"nette/neon": "^3.2"
 	},
 	"require-dev": {
 		"phpstan/extension-installer": "^1.0",
