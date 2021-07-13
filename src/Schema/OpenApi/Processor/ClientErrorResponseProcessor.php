@@ -4,6 +4,7 @@ namespace Nubium\ApiFrame\Schema\OpenApi\Processor;
 
 use Nubium\ApiFrame\Error\IClientError;
 use OpenApi\Analysis;
+use OpenApi\Annotations\AbstractAnnotation;
 use OpenApi\Annotations\MediaType;
 use OpenApi\Annotations\Operation;
 use OpenApi\Annotations\Property;
@@ -99,22 +100,29 @@ class ClientErrorResponseProcessor
 					throw new Exception(sprintf("Found no schema by name `%s` (requested by error class `%s`).", $schemaName, $errorClassName));
 				}
 				if ($schema->properties == Generator::UNDEFINED) {
-					$schema->properties = [
-						new Property([]),
-						new Property([]),
-					];
-					// HARDCODED PROPERTIES (code, message)
-					$schema->properties[0]->property = 'code';
-					$schema->properties[0]->type = 'integer';
-					$schema->properties[1]->property = 'message';
-					$schema->properties[1]->type = 'string';
+					$schema->properties = [];
 				}
-				$schema->properties[0]->example = $errorClassName::getCode();
-				$schema->properties[0]->description = "Constant: ".$errorClassName::getCode();
+				// look for `code` property, if it doesnt exist then create one
+				$codeProperty = $this->findPropertyInSchemaByName($schema, 'code');
+				if (!$codeProperty) {
+					$schema->properties[] = $codeProperty = new Property([]);
+					$codeProperty->property ='code';
+					$codeProperty->type = 'integer';
+				}
+				$codeProperty->example = $errorClassName::getCode();
+				$codeProperty->description = "Constant: ".$errorClassName::getCode();
+
+				// look for `message` property, if it doesnt exist then create one
+				$messageProperty = $this->findPropertyInSchemaByName($schema, 'message');
+				if (!$messageProperty) {
+					$schema->properties[] = $messageProperty = new Property([]);
+					$messageProperty->property ='message';
+					$messageProperty->type = 'string';
+				}
 				if ($errorClassName::getMessage()) {
 					/** @phpstan-ignore-next-line */
 					$schema->description = $errorClassName::getMessage();
-					$schema->properties[1]->example = $errorClassName::getMessage();
+					$messageProperty->example = $errorClassName::getMessage();
 				}
 
 				// add schema to our cache
@@ -130,6 +138,20 @@ class ClientErrorResponseProcessor
 		}
 
 		$responseContent->schema = $exampleListSchema;
+	}
+
+	private function findPropertyInSchemaByName(Schema $schema, string $propertyName): ?Property
+	{
+		/** @phpstan-ignore-next-line */
+		if ($schema->properties === Generator::UNDEFINED) {
+			return null;
+		}
+		foreach ($schema->properties as $property) {
+			if ($property->property === $propertyName) {
+				return $property;
+			}
+		}
+		return null;
 	}
 
 	private function findSchemaByName(string $schemaName): ?Schema
