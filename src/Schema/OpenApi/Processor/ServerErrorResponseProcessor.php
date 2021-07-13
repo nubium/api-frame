@@ -46,7 +46,7 @@ class ServerErrorResponseProcessor
 		});
 
 		if (empty($clientErrorSchemas)) {
-			throw new Exception("There is no schema with name: " . self::SERVER_ERROR_SCHEMA_NAME);
+			throw new Exception(sprintf("There is no schema with name: %s. This schema is needed as the general error parent.", self::SERVER_ERROR_SCHEMA_NAME));
 		}
 
 		return reset($clientErrorSchemas);
