@@ -25,15 +25,15 @@ class CustomOperationIdProcessor
 
 			/** @phpstan-ignore-next-line */
 			if ($context && $context->method) {
-					if ($context->class) {
-						if ($context->namespace) {
-									$operation->operationId = $context->namespace . "/" . $context->class . "::" . $context->method;
-								} else {
-									$operation->operationId = $context->class . "::" . $context->method;
-								}
+				if ($context->class) {
+					if ($context->namespace) {
+						$operation->operationId = $context->namespace . "/" . $context->class . "::" . $context->method;
+					} else {
+						$operation->operationId = $context->class . "::" . $context->method;
+					}
 				} else {
-							$operation->operationId = $context->method;
-						}
+					$operation->operationId = $context->method;
+				}
 				$operation->operationId = str_replace("\\", "/", $operation->operationId);
 			}
 		}

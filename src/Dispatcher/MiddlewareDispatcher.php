@@ -32,7 +32,8 @@ class MiddlewareDispatcher implements IDispatcher
 		IApiRequestFactory $apiRequestFactory,
 		IApiResponseFactory $apiResponseFactory,
 		array $middlewares
-	) {
+	)
+	{
 		$this->handler = $handler;
 		$this->apiRequestFactory = $apiRequestFactory;
 		$this->apiResponseFactory = $apiResponseFactory;

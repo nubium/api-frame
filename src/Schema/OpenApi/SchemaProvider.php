@@ -29,7 +29,7 @@ class SchemaProvider
 		$what = Finder::create()
 			->files()
 			->name('*.php')
-			->in($projectRoot);
+			->in([$projectRoot, __DIR__.'/../..']);
 
 		$generator = new Generator();
 		$processors = $generator->getProcessors();

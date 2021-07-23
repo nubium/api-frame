@@ -32,7 +32,7 @@ class RestModule extends REST
 	private ?OpenApi $schema = null;
 
 
-	public function _before(TestInterface $test) : void
+	public function _before(TestInterface $test): void
 	{
 		parent::_before($test);
 		$groups = $test->getMetadata()->getGroups();
@@ -46,7 +46,7 @@ class RestModule extends REST
 	 * @param array<string> $parameters
 	 * @param array<string> $files
 	 */
-	protected function execute($method, $url, $parameters = [], $files = []) : void
+	protected function execute($method, $url, $parameters = [], $files = []): void
 	{
 		if (!$this->schemaValidationEnabled) {
 			// Schema validation is disabled

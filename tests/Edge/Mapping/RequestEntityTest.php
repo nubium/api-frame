@@ -24,7 +24,7 @@ class RequestEntityTest extends TestCase
 	 * @param mixed $inputDate
 	 * @param string|null $expectedDate
 	 */
-	public function testParseDateTime($inputDate, ?string $expectedDate = null) : void
+	public function testParseDateTime($inputDate, ?string $expectedDate = null): void
 	{
 		$entityFactory = new class() extends RequestEntity {
 			/** @var \DateTimeImmutable|null */
@@ -51,7 +51,7 @@ class RequestEntityTest extends TestCase
 		}
 	}
 
-	public function testDateTimeValidAnnotations() : void
+	public function testDateTimeValidAnnotations(): void
 	{
 		$entityFactory = new class() extends RequestEntity {
 			/** @var \DateTimeImmutable|null */
@@ -77,7 +77,7 @@ class RequestEntityTest extends TestCase
 		$this->assertInstanceOf(\DateTimeImmutable::class, $entityInstance->date4);
 	}
 
-	public function testDateTimeInvalidAnnotations() : void
+	public function testDateTimeInvalidAnnotations(): void
 	{
 		$entityFactory = new class() extends RequestEntity {
 			/** @var \DateTime */

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Nubium\ApiFrame\Error;
 
+use Apitte\Core\Dispatcher\DispatchError;
 use Apitte\Core\ErrorHandler\SimpleErrorHandler;
 use Apitte\Core\Exception\Runtime\SnapshotException;
 use Apitte\Core\Http\ApiResponse;
@@ -30,9 +31,9 @@ class AppErrorHandler extends SimpleErrorHandler
 	/**
 	 * @throws Throwable
 	 */
-	public function handle(Throwable $error): ApiResponse
+	public function handle(DispatchError $error): ApiResponse
 	{
-		$this->logError($error);
+		$this->logError($error->getError());
 
 		return parent::handle($error);
 	}
