@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        uses: php-actions/composer@master
+        uses: php-actions/composer@v6
         with:
           php_version: ${{ matrix.php-version }}
           ssh_key: ${{ secrets.SSH_KEY }}
