@@ -40,7 +40,9 @@ class ClientErrorResponseProcessor
 			if (is_iterable($operation->responses)) {
 				// add error schema to all 4xx responses
 				foreach ($operation->responses as $response) {
-					$this->expandErrorSchemasForResponse($response);
+					if (preg_match('/4../', $response->response)) {
+						$this->expandErrorSchemasForResponse($response);
+					}
 				}
 			}
 		}
