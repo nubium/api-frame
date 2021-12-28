@@ -93,9 +93,10 @@ class RequestEntity extends BasicEntity
 		/** @var static $inst */
 		$inst = parent::factory($data);
 
+		/** @var array<array{'name': string, 'type': mixed, 'defaultValue': mixed}> $properties */
 		$properties = $inst->getRequestProperties();
 		foreach ($properties as $property) {
-			$inst->_presentProperties[$property['name']] = array_key_exists($property['name'], $data);
+			$inst->_presentProperties[$property['name']] = array_key_exists(strval($property['name']), $data);
 		}
 
 		return $inst;
@@ -241,12 +242,10 @@ class RequestEntity extends BasicEntity
 			str_replace('.v', '.u', \DateTimeInterface::RFC3339_EXTENDED),
 		];
 		foreach ($acceptedFormats as $format) {
-			$dateTime = \DateTimeImmutable::createFromFormat($format, (string)$value);
+			$dateTime = \DateTimeImmutable::createFromFormat($format, strval($value));
 			$errors = \DateTimeImmutable::getLastErrors();
 			if ($dateTime instanceof \DateTimeImmutable
 				&& $errors
-				&& isset($errors['warning_count'])
-				&& isset($errors['error_count'])
 				&& $errors['warning_count'] == 0 && $errors['error_count'] == 0) {
 				return $dateTime->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 			}

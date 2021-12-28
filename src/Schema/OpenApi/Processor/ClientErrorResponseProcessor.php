@@ -122,7 +122,6 @@ class ClientErrorResponseProcessor
 					$messageProperty->type = 'string';
 				}
 				if ($errorClassName::getMessage()) {
-					/** @phpstan-ignore-next-line */
 					$schema->description = $errorClassName::getMessage();
 					$messageProperty->example = $errorClassName::getMessage();
 				}
@@ -133,6 +132,7 @@ class ClientErrorResponseProcessor
 
 			// STEP 2: add the entry to response
 			$schema = $this->schemasCache[$schemaIndexName];
+			/** @var Schema $subSchema */
 			$subSchema = unserialize(serialize($schema));
 			$subSchema->title = $schemaName;
 			$subSchema->ref = '#/components/schemas/'.$schemaName;

@@ -29,7 +29,7 @@ class ControllerLoader implements ILoader
 	/** @var IController[] */
 	private array $controllers;
 	private Reader $reader;
-	/** @var mixed[] */
+	/** @var array{'services': array<class-string, array{'parents': ReflectionClass<object>[], 'reflection': ReflectionClass<object> }>} */
 	private $meta = [
 		'services' => [],
 	];
@@ -160,7 +160,7 @@ class ControllerLoader implements ILoader
 
 			// Parse @OpenApi ============================
 			if ($annotation instanceof OpenApi) {
-				$controller->setOpenApi(Neon::decode($annotation->getData()) ?? []);
+				$controller->setOpenApi((array) (Neon::decode($annotation->getData()) ?? []));
 				continue;
 			}
 		}
@@ -274,7 +274,7 @@ class ControllerLoader implements ILoader
 
 				// Parse @OpenApi ================
 				if ($annotation instanceof OpenApi) {
-					$schemaMethod->setOpenApi(Neon::decode($annotation->getData()) ?? []);
+					$schemaMethod->setOpenApi((array) (Neon::decode($annotation->getData()) ?? []));
 					continue;
 				}
 

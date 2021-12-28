@@ -8,6 +8,7 @@ use Apitte\Core\Handler\IHandler;
 use Apitte\Core\Http\ApiRequest;
 use Apitte\Core\Http\ApiResponse;
 use Apitte\Core\Http\RequestAttributes;
+use Apitte\Core\Schema\Endpoint;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -53,8 +54,10 @@ class MiddlewareDispatcher implements IDispatcher
 	private function callMiddlewareChain(ApiRequest $request, ApiResponse $response): ApiResponse
 	{
 		$next = $this->createCallbackRequestHandler(function (ApiRequest $req) use ($response): ApiResponse {
+			/** @var Endpoint $endpoint */
 			$endpoint = $req->getAttribute(RequestAttributes::ATTR_ENDPOINT);
 			$responseWithEndpoint = $response->withEndpoint($endpoint);
+			/** @var ResponseInterface $handleResponse */
 			$handleResponse = $this->handler->handle($req, $responseWithEndpoint);
 
 			return $this->checkResponseType($handleResponse);

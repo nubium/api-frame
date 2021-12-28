@@ -52,7 +52,7 @@ class AppErrorHandler extends SimpleErrorHandler
 	{
 		$code = $error->getCode() >= 600 || $error->getCode() < 500 ? 500 : $error->getCode();
 		$response = $this->apiResponseFactory->createApiResponse()
-			->withStatus($code);
+			->withStatus(intval($code));
 
 		return $this->transformer->transformError($response, $error);
 	}
