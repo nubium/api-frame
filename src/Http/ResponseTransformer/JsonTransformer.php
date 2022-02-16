@@ -100,6 +100,7 @@ class JsonTransformer implements IResponseTransformer
 	}
 
 	/**
+	 * @param mixed $data
 	 * @throws \JsonException
 	 */
 	private static function jsonEncode($data, bool $isDebug): string
