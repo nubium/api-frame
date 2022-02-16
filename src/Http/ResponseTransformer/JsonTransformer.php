@@ -102,7 +102,7 @@ class JsonTransformer implements IResponseTransformer
 	/**
 	 * @throws \JsonException
 	 */
-	private static function jsonEncode(mixed $data, bool $isDebug): string
+	private static function jsonEncode($data, bool $isDebug): string
 	{
 		$encodedData = json_encode($data, ($isDebug ? JSON_PRETTY_PRINT : 0) | JSON_THROW_ON_ERROR);
 		if ($isDebug) {
