@@ -27,7 +27,7 @@
 		"psr/log": "^1.0",
 		"spareparts/enum": "~1.1",
 		"symfony/validator": "~4.4.4",
-		"zircote/swagger-php": "^3.2.0",
+		"zircote/swagger-php": "^4.2",
 		"nette/neon": "^3.2"
 	},
 	"require-dev": {

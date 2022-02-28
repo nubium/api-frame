@@ -6,7 +6,7 @@ use OpenApi\Analysis;
 use OpenApi\Annotations\Operation;
 use OpenApi\Annotations\Parameter;
 use OpenApi\Annotations\Schema;
-use const OpenApi\UNDEFINED;
+use OpenApi\Generator;
 
 
 /**
@@ -26,7 +26,7 @@ class TransparentHeadersProcessor
 
 	private function addTransparentHeaders(Operation $operation): void
 	{
-		if ($operation->parameters == UNDEFINED) {
+		if ($operation->parameters == Generator::UNDEFINED) {
 			$operation->parameters = [];
 		}
 

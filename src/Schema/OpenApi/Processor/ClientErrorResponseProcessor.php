@@ -4,7 +4,6 @@ namespace Nubium\ApiFrame\Schema\OpenApi\Processor;
 
 use Nubium\ApiFrame\Error\IClientError;
 use OpenApi\Analysis;
-use OpenApi\Annotations\AbstractAnnotation;
 use OpenApi\Annotations\MediaType;
 use OpenApi\Annotations\Operation;
 use OpenApi\Annotations\Property;
@@ -12,7 +11,6 @@ use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
 use Exception;
 use OpenApi\Generator;
-use const OpenApi\UNDEFINED;
 
 
 /**
@@ -40,7 +38,7 @@ class ClientErrorResponseProcessor
 			if (is_iterable($operation->responses)) {
 				// add error schema to all 4xx responses
 				foreach ($operation->responses as $response) {
-					if (preg_match('/4../', $response->response)) {
+					if (preg_match('/4../', (string) $response->response)) {
 						$this->expandErrorSchemasForResponse($response);
 					}
 				}
@@ -51,7 +49,7 @@ class ClientErrorResponseProcessor
 
 	private function ensureJsonResponseContent(Response $operationResponse): MediaType
 	{
-		if ($operationResponse->content == UNDEFINED) {
+		if ($operationResponse->content == Generator::UNDEFINED) {
 			$operationResponse->content = [];
 		}
 		if (!isset($operationResponse->content['application/json'])) {
@@ -95,7 +93,7 @@ class ClientErrorResponseProcessor
 					$schema = new Schema([]);
 					$schema->schema = $schemaName;
 					$schema->title = $schemaName;
-					$this->analysis->addAnnotation($schema, null);
+					//$this->analysis->addAnnotation($schema, null);
 
 					//TODO this code actually doesn't work and I have no idea why, so we throw exception until fixed
 					// @phpstan-ignore-next-line

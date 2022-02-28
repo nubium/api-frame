@@ -5,7 +5,7 @@ namespace Nubium\ApiFrame\Schema\OpenApi\Processor;
 
 use OpenApi\Analysis;
 use OpenApi\Annotations\Operation;
-use const OpenApi\UNDEFINED;
+use OpenApi\Generator;
 
 /**
  * Generate the OperationId compatible with ReDoc (avoid back slash)
@@ -18,12 +18,11 @@ class CustomOperationIdProcessor
 
 		foreach ($allOperations as $operation) {
 			/** @phpstan-ignore-next-line */
-			if ($operation->operationId !== UNDEFINED) {
+			if ($operation->operationId !== Generator::UNDEFINED) {
 				continue;
 			}
 			$context = $operation->_context;
 
-			/** @phpstan-ignore-next-line */
 			if ($context && $context->method) {
 				if ($context->class) {
 					if ($context->namespace) {

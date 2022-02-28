@@ -8,7 +8,7 @@ use OpenApi\Annotations\Operation;
 use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
 use Exception;
-use const OpenApi\UNDEFINED;
+use OpenApi\Generator;
 
 
 /**
@@ -62,7 +62,7 @@ class ServerErrorResponseProcessor
 		$response->description = 'Internal server error';
 		$response->content = ['application/json' => $mediaType];
 
-		if ($operation->responses == UNDEFINED) {
+		if ($operation->responses == Generator::UNDEFINED) {
 			$operation->responses = [$response];
 		} else {
 			$operation->responses[] = $response;

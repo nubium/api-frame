@@ -9,7 +9,6 @@ use OpenApi\Annotations\OpenApi as SwaggerOpenApi;
 use OpenApi\Generator;
 use OpenApi\Processors\OperationId;
 use Symfony\Component\Finder\Finder;
-use function OpenApi\scan;
 
 
 class SchemaProvider
@@ -44,9 +43,11 @@ class SchemaProvider
 		}
 		$processors = [...$processors, ...$additionalProcessors];
 		$generator->setProcessors($processors);
-		$generator->generate($what);
-
-		return $this->openApi = scan($what, ['processors' => $processors]);
+		$this->openApi = $generator->generate($what);
+		if ($this->openApi === null) {
+			throw new \Exception('Invalid openApi schema');
+		}
+		return $this->openApi;
 	}
 
 	public function getValidatorSchemaFromStaticAnalysis(SwaggerOpenApi $swaggerSchema): ValidatorOpenAPi
