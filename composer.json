@@ -16,7 +16,7 @@
 		}
 	},
 	"require": {
-		"php": ">=7.4",
+		"php": ">=8.0",
 		"apitte/core": "^0.6|^0.7|^0.8",
 		"apitte/negotiation": "^0.6|^0.7|^0.8",
 		"league/openapi-psr7-validator": ">=0.10.0",
