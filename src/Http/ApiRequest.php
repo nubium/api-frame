@@ -17,4 +17,12 @@ class ApiRequest extends \Apitte\Core\Http\ApiRequest
 
 		return $endpoint;
 	}
+
+	public function getRemoteAddr(): string
+	{
+		/** @var string $ip */
+		$ip = $this->getServerParams()['REMOTE_ADDR'] ?? throw new \InvalidArgumentException('Request\'s server params do not contain REMOTE_ADDR, probably problem with webserver configuration.');
+
+		return $ip;
+	}
 }
