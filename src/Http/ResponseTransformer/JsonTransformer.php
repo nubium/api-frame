@@ -57,7 +57,7 @@ class JsonTransformer implements IResponseTransformer
 	private function transformEntity(ApiResponse $response, AbstractEntity $entity): ApiResponse
 	{
 		return $response
-			->writeBody(self::jsonEncode($entity->getData(), $this->isDebug));
+			->writeBody(self::jsonEncode($entity->getData()));
 	}
 
 
@@ -75,7 +75,7 @@ class JsonTransformer implements IResponseTransformer
 	public static function errorToResponse(?Throwable $error, bool $isDebug): string
 	{
 		$data = self::errorToResponseData($error, $isDebug);
-		return self::jsonEncode($data, $isDebug);
+		return self::jsonEncode($data);
 	}
 
 	/** @return array<string, mixed> */
@@ -103,13 +103,8 @@ class JsonTransformer implements IResponseTransformer
 	 * @param mixed $data
 	 * @throws \JsonException
 	 */
-	private static function jsonEncode($data, bool $isDebug): string
+	private static function jsonEncode($data): string
 	{
-		$encodedData = json_encode($data, ($isDebug ? JSON_PRETTY_PRINT : 0) | JSON_THROW_ON_ERROR);
-		if ($isDebug) {
-			$encodedData .= "\n";
-		}
-
-		return $encodedData;
+		return json_encode($data, JSON_THROW_ON_ERROR);
 	}
 }
