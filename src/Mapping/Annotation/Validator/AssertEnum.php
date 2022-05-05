@@ -16,7 +16,7 @@ class AssertEnum extends Constraint
 	public $enum;
 
 	/** @var string */
-	public $message;
+	public $message = 'This value should be enum.';
 
 	public function __construct($options = null)
 	{

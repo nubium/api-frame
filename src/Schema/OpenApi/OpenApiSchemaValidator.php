@@ -50,7 +50,7 @@ class OpenApiSchemaValidator
 	private function safeCall(callable $callback): ?Throwable
 	{
 		try {
-			set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline, array $errcontext = []) {
+			set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline) {
 				if (error_reporting() != 0) {
 					throw new ErrorException($errstr, $errno, $errno, $errfile, $errline);
 				}

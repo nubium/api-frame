@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class EnumValidator extends ConstraintValidator
 {
-	public function validate($value, Constraint $constraint): void
+	public function validate(mixed $value, Constraint $constraint): void
 	{
 		if (!$constraint instanceof AssertEnum) {
 			throw new UnexpectedTypeException($constraint, AssertEnum::class);

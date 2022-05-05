@@ -17,7 +17,7 @@
 	},
 	"require": {
 		"ext-json": "*",
-		"php": ">=7.4",
+		"php": ">=8.0",
 		"apitte/core": "^0.6|^0.7|^0.8",
 		"apitte/negotiation": "^0.6|^0.7|^0.8",
 		"league/openapi-psr7-validator": ">=0.10.0",
@@ -27,7 +27,7 @@
 		"psr/http-server-middleware": "^1.0",
 		"psr/log": "^1.0",
 		"spareparts/enum": "~1.1",
-		"symfony/validator": "~4.4.4",
+		"symfony/validator": "~6.0.8",
 		"zircote/swagger-php": "^3.2.0",
 		"nette/neon": "^3.2"
 	},
@@ -36,5 +36,10 @@
 		"phpstan/phpstan": "^1.2.0",
 		"phpstan/phpstan-phpunit": "^1.0.0",
 		"phpunit/phpunit": "^9.5"
+	},
+	"config": {
+		"allow-plugins": {
+			"phpstan/extension-installer": true
+		}
 	}
 }
