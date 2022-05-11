@@ -16,6 +16,7 @@
 		}
 	},
 	"require": {
+		"ext-json": "*",
 		"php": ">=7.4",
 		"apitte/core": "^0.6|^0.7|^0.8",
 		"apitte/negotiation": "^0.6|^0.7|^0.8",
