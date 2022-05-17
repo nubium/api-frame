@@ -37,6 +37,9 @@
 		"phpstan/phpstan-phpunit": "^1.0.0",
 		"phpunit/phpunit": "^9.5"
 	},
+	"suggest": {
+		"nubium/app-logger": "Require to use AppLoggerMiddleware"
+	},
 	"config": {
 		"allow-plugins": {
 			"phpstan/extension-installer": true
