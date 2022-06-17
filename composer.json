@@ -18,8 +18,7 @@
 	"require": {
 		"ext-json": "*",
 		"php": ">=8.0",
-		"apitte/core": "^0.6|^0.7|^0.8",
-		"apitte/negotiation": "^0.6|^0.7|^0.8",
+		"contributte/apitte": "^0.9",
 		"league/openapi-psr7-validator": ">=0.10.0",
 		"nette/utils": "^3.0 || ~2.5",
 		"psr/container": "*",
