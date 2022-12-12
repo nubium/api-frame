@@ -18,18 +18,20 @@ class SchemaProvider
 	private ?ValidatorOpenApi $validatorOpenApi = null;
 
 	/**
+	 * @param string|string[] $projectRoot
 	 * @param callable[] $additionalProcessors
 	 */
-	public function getDescribingSchemaFromStaticAnalysis(string $projectRoot, ?callable $operationIdProcessorReplacement = null, array $additionalProcessors = []): SwaggerOpenApi
+	public function getDescribingSchemaFromStaticAnalysis(mixed $projectRoot, ?callable $operationIdProcessorReplacement = null, array $additionalProcessors = []): SwaggerOpenApi
 	{
 		if ($this->openApi) {
 			return $this->openApi;
 		}
 
+		$projectRoot = (array)$projectRoot;
 		$what = Finder::create()
 			->files()
 			->name('*.php')
-			->in([$projectRoot, __DIR__.'/../..']);
+			->in(array_merge(array_values($projectRoot), [__DIR__.'/../..']));
 
 		$generator = new Generator();
 		$processors = $generator->getProcessors();
