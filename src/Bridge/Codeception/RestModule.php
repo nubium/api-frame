@@ -20,7 +20,7 @@ class RestModule extends REST
 	/**
 	 * @var array<string, string|null>
 	 */
-	protected $config = [
+	protected array $config = [
 		'url' => '',
 		'aws' => '',
 		'schemaUrl' => null,
