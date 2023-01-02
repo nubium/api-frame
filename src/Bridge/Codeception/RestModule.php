@@ -6,6 +6,7 @@ namespace Nubium\ApiFrame\Bridge\Codeception;
 use cebe\openapi\spec\OpenApi;
 use Codeception\Module\REST;
 use Codeception\TestInterface;
+use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use League\OpenAPIValidation\PSR7\OperationAddress;
@@ -13,7 +14,6 @@ use League\OpenAPIValidation\PSR7\SchemaFactory\JsonFactory;
 use Nubium\ApiFrame\Schema\OpenApi\OpenApiSchemaValidator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function GuzzleHttp\Psr7\parse_query;
 
 class RestModule extends REST
 {
@@ -118,7 +118,7 @@ class RestModule extends REST
 			$this->connectionModule->headers,
 			$internalRequest->getContent()
 		);
-		return $request->withQueryParams(parse_query($request->getUri()->getQuery()));
+		return $request->withQueryParams(Query::parse($request->getUri()->getQuery()));
 	}
 
 	private function getPsrResponse(): ResponseInterface
