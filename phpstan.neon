@@ -6,5 +6,6 @@ parameters:
 	excludePaths:
 		- src\Bridge\Nette\ApiFrameScopeExtension.php
 		- src\Bridge\Codeception\RestModule.php
+		- src\Bridge\Apitte\DoctrineAnnotationLoader.php
 		- src\Middleware\AppLoggerMiddleware.php
 
