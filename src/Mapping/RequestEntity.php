@@ -139,7 +139,7 @@ class RequestEntity extends BasicEntity
 		if (!isset($this->_propertyTypes[$property])) {
 			$match = Strings::match(
 				$this->getPropertyDoc($property),
-				'/@var\s+(null\|)?(\?)?(?<type>mixed|string|int|integer|bool|boolean|float|double|string\[\]|array\[\]|\\\\?DateTimeImmutable|\\\\?DateTimeInterface)(\|null)?(\s|$)/'
+				'/@var\s+(null\|)?(\?)?(?<type>mixed|string|int|integer|bool|boolean|float|double|string\[\]|array\[\]|array\<.+\>|\\\\?DateTimeImmutable|\\\\?DateTimeInterface)(\|null)?(\s|$)/'
 			);
 			if ($match === null) {
 				throw new EntityDeclarationException(
@@ -236,13 +236,15 @@ class RequestEntity extends BasicEntity
 	 */
 	protected function normalizeDateTimeImmutable($value)
 	{
+        /** @var string $value */
+
 		$acceptedFormats = [
 			\DateTimeInterface::RFC3339,
 			// ".v" is buggy from 7.1 to 7.3 @see https://bugs.php.net/bug.php?id=75577
 			str_replace('.v', '.u', \DateTimeInterface::RFC3339_EXTENDED),
 		];
-		foreach ($acceptedFormats as $format) {
-			$dateTime = \DateTimeImmutable::createFromFormat($format, strval($value));
+        foreach ($acceptedFormats as $format) {
+			$dateTime = \DateTimeImmutable::createFromFormat($format, $value);
 			$errors = \DateTimeImmutable::getLastErrors();
 			if ($dateTime instanceof \DateTimeImmutable
 				&& $errors
