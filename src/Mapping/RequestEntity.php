@@ -242,7 +242,7 @@ class RequestEntity extends BasicEntity
 			str_replace('.v', '.u', \DateTimeInterface::RFC3339_EXTENDED),
 		];
 		foreach ($acceptedFormats as $format) {
-			$dateTime = \DateTimeImmutable::createFromFormat($format, strval($value));
+			$dateTime = \DateTimeImmutable::createFromFormat($format, is_scalar($value) ? (string)$value : '');
 			$errors = \DateTimeImmutable::getLastErrors();
 			if ($dateTime instanceof \DateTimeImmutable
 				&& $errors
