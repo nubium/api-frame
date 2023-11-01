@@ -8,6 +8,7 @@ use League\OpenAPIValidation\PSR7\SchemaFactory\JsonFactory;
 use OpenApi\Annotations\OpenApi as SwaggerOpenApi;
 use OpenApi\Generator;
 use OpenApi\Processors\OperationId;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
 use function OpenApi\scan;
 
@@ -20,9 +21,23 @@ class SchemaProvider
 	/**
 	 * @param string|string[] $projectRoot
 	 * @param callable[] $additionalProcessors
+	 * @deprecated
 	 */
 	public function getDescribingSchemaFromStaticAnalysis(mixed $projectRoot, ?callable $operationIdProcessorReplacement = null, array $additionalProcessors = []): SwaggerOpenApi
 	{
+		return $this->getDescriptiveSchemaFromStaticAnalysis(null, $projectRoot, $operationIdProcessorReplacement, $additionalProcessors);
+	}
+
+	/**
+	 * @param string|string[] $projectRoot
+	 * @param callable[] $additionalProcessors
+	 */
+	public function getDescriptiveSchemaFromStaticAnalysis(
+		?LoggerInterface $logger,
+		mixed $projectRoot,
+		?callable $operationIdProcessorReplacement = null,
+		array $additionalProcessors = [],
+	): SwaggerOpenApi {
 		if ($this->openApi) {
 			return $this->openApi;
 		}
@@ -31,9 +46,9 @@ class SchemaProvider
 		$what = Finder::create()
 			->files()
 			->name('*.php')
-			->in(array_merge(array_values($projectRoot), [__DIR__.'/../..']));
+			->in(array_values($projectRoot));
 
-		$generator = new Generator();
+		$generator = new Generator($logger);
 		$processors = $generator->getProcessors();
 
 		if ($operationIdProcessorReplacement) {
@@ -44,6 +59,7 @@ class SchemaProvider
 				}
 			}
 		}
+
 		$processors = [...$processors, ...$additionalProcessors];
 		$generator->setProcessors($processors);
 		$generator->generate($what);
