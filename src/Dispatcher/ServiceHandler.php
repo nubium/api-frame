@@ -23,10 +23,7 @@ class ServiceHandler implements IHandler
 		$this->container = $container;
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function handle(ApiRequest $request, ApiResponse $response)
+	public function handle(ApiRequest $request, ApiResponse $response): mixed
 	{
 		// Create and trigger callback
 		$endpoint = $this->getEndpoint($request);

@@ -103,7 +103,7 @@ class RequestEntity extends BasicEntity
 	}
 
 
-	protected function normalize(string $property, $value)
+	protected function normalize(string $property, mixed $value): mixed
 	{
 		if ($value === null) {
 			return $value;
@@ -245,8 +245,8 @@ class RequestEntity extends BasicEntity
 			$dateTime = \DateTimeImmutable::createFromFormat($format, is_scalar($value) ? (string)$value : '');
 			$errors = \DateTimeImmutable::getLastErrors();
 			if ($dateTime instanceof \DateTimeImmutable
-				&& $errors
-				&& $errors['warning_count'] == 0 && $errors['error_count'] == 0) {
+				&& ($errors === false || ($errors['warning_count'] == 0 && $errors['error_count'] == 0))
+			) {
 				return $dateTime->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 			}
 		}
