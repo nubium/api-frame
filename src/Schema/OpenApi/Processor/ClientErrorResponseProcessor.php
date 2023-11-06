@@ -141,8 +141,7 @@ class ClientErrorResponseProcessor
 
 			// STEP 2: add the entry to response
 			$schema = $this->schemasCache[$schemaIndexName];
-			/** @var Schema $subSchema */
-			$subSchema = unserialize(serialize($schema));
+			$subSchema = clone $schema;
 			$subSchema->title = $schemaName;
 			$subSchema->ref = '#/components/schemas/' . $schemaName;
 			$exampleListSchema->anyOf[] = $subSchema;
