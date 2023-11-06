@@ -4,7 +4,6 @@ namespace Nubium\ApiFrame\Schema\OpenApi\Processor;
 
 use Nubium\ApiFrame\Error\IClientError;
 use OpenApi\Analysis;
-use OpenApi\Annotations\AbstractAnnotation;
 use OpenApi\Annotations\MediaType;
 use OpenApi\Annotations\Operation;
 use OpenApi\Annotations\Property;
@@ -22,6 +21,17 @@ class ClientErrorResponseProcessor
 {
 	private Analysis $analysis;
 
+	/** @var array<integer, string> */
+	private array $httpErrorCodes = [
+		200 => 'OK',
+		400 => 'Bad Request',
+		401 => 'Unauthorized',
+		403 => 'Forbidden',
+		404 => 'Not Found',
+		422 => 'Unprocessable Entity',
+		429 => 'Too Many Requests',
+	];
+
 	/** @var Schema[] */
 	private array $schemasCache = [];
 
@@ -32,14 +42,13 @@ class ClientErrorResponseProcessor
 
 		$allOperations = $analysis->getAnnotationsOfType(Operation::class);
 
-		/** @var Schema[] $schemas */
-		$schemas = $analysis->getAnnotationsOfType(Schema::class);
-
 		/** @var Operation $operation */
 		foreach ($allOperations as $operation) {
 			if (is_iterable($operation->responses)) {
 				// add error schema to all 4xx responses
 				foreach ($operation->responses as $response) {
+					$this->ensureResponseDescription($response);
+
 					if (preg_match('/4../', $response->response)) {
 						$this->expandErrorSchemasForResponse($response);
 					}
@@ -108,17 +117,17 @@ class ClientErrorResponseProcessor
 				$codeProperty = $this->findPropertyInSchemaByName($schema, 'code');
 				if (!$codeProperty) {
 					$schema->properties[] = $codeProperty = new Property([]);
-					$codeProperty->property ='code';
+					$codeProperty->property = 'code';
 					$codeProperty->type = 'integer';
 				}
 				$codeProperty->example = $errorClassName::getCode();
-				$codeProperty->description = "Constant: ".$errorClassName::getCode();
+				$codeProperty->description = "Constant: " . $errorClassName::getCode();
 
 				// look for `message` property, if it doesnt exist then create one
 				$messageProperty = $this->findPropertyInSchemaByName($schema, 'message');
 				if (!$messageProperty) {
 					$schema->properties[] = $messageProperty = new Property([]);
-					$messageProperty->property ='message';
+					$messageProperty->property = 'message';
 					$messageProperty->type = 'string';
 				}
 				if ($errorClassName::getMessage()) {
@@ -132,14 +141,23 @@ class ClientErrorResponseProcessor
 
 			// STEP 2: add the entry to response
 			$schema = $this->schemasCache[$schemaIndexName];
-			/** @var Schema $subSchema */
-			$subSchema = unserialize(serialize($schema));
+			$subSchema = clone $schema;
 			$subSchema->title = $schemaName;
-			$subSchema->ref = '#/components/schemas/'.$schemaName;
+			$subSchema->ref = '#/components/schemas/' . $schemaName;
 			$exampleListSchema->anyOf[] = $subSchema;
 		}
 
 		$responseContent->schema = $exampleListSchema;
+	}
+
+	private function ensureResponseDescription(Response $response): void
+	{
+		if ($response->description === Generator::UNDEFINED
+			&& $response->response !== Generator::UNDEFINED
+			&& array_key_exists(intval($response->response), $this->httpErrorCodes)
+		) {
+			$response->description = $this->httpErrorCodes[intval($response->response)];
+		}
 	}
 
 	private function findPropertyInSchemaByName(Schema $schema, string $propertyName): ?Property
